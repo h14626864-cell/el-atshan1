@@ -622,7 +622,7 @@
           <div id="wifi-qr-preview-wrap" class="hidden">
             <label class="text-xs font-bold text-ink/50 mb-2 block">معاينة QR Code</label>
             <div class="bg-white rounded-xl p-4 border border-ink/10 inline-block">
-              <canvas id="wifi-qr-preview"></canvas>
+              <img id="wifi-qr-preview" src="" alt="WiFi QR" class="w-[180px] h-[180px]">
             </div>
           </div>
           <button onclick="saveWifiSettings()" class="btn-primary w-full">حفظ إعدادات الواي فاي</button>
@@ -1936,12 +1936,13 @@ function renderWifiPreview() {
   const ssid = document.getElementById('setting-wifi-ssid').value.trim();
   const pass = document.getElementById('setting-wifi-password').value;
   const wrap = document.getElementById('wifi-qr-preview-wrap');
-  const canvas = document.getElementById('wifi-qr-preview');
+  const img = document.getElementById('wifi-qr-preview');
   if (!ssid || !window.QRCode) { wrap.classList.add('hidden'); return; }
   wrap.classList.remove('hidden');
   const wifiStr = makeWifiString(ssid, pass || '');
-  canvas.innerHTML = '';
-  window.QRCode.toCanvas(canvas, wifiStr, { width: 180, margin: 1, color: { dark: '#2B1B12', light: '#FFFFFF' } });
+  window.QRCode.toDataURL(wifiStr, { width: 360, margin: 1, color: { dark: '#2B1B12', light: '#FFFFFF' } })
+    .then(url => { img.src = url; })
+    .catch(err => console.warn('QR preview err', err));
 }
 
 function populateSocialForm() {

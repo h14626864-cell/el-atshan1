@@ -105,6 +105,33 @@
   .review-avatar {
     background: linear-gradient(135deg, #F4791E, #B23A1B);
   }
+
+  /* Dark mode */
+  .dark body, body.dark { background: #1a1210; color: #f5efe8; }
+  body.dark .bg-cream { background: #1a1210; }
+  body.dark .bg-white { background: #251c15; }
+  body.dark .bg-white\/80 { background: rgba(37,28,21,.85); }
+  body.dark .text-ink { color: #f5efe8; }
+  body.dark .text-ink\/50, body.dark .text-ink\/55, body.dark .text-ink\/60, body.dark .text-ink\/45, body.dark .text-ink\/40, body.dark .text-ink\/70 { color: rgba(245,239,232,.5); }
+  body.dark .border-ink\/5, body.dark .border-ink\/8, body.dark .border-ink\/10, body.dark .border-white\/60 { border-color: rgba(245,239,232,.1); }
+  body.dark .bg-ink\/5 { background: rgba(245,239,232,.08); }
+  body.dark .bg-ink\/60 { background: rgba(0,0,0,.7); }
+  body.dark .shadow-lg, body.dark .shadow-xl, body.dark .shadow-md, body.dark .shadow-sm { box-shadow: 0 4px 20px rgba(0,0,0,.4); }
+  body.dark .glass { background: rgba(37,28,21,.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+  body.dark .glass-card { background: rgba(37,28,21,.7); border-color: rgba(245,239,232,.08); }
+  body.dark input, body.dark textarea, body.dark select { background: #1a1210; color: #f5efe8; border-color: rgba(245,239,232,.12); }
+  body.dark .placeholder\:text-ink\/40::placeholder { color: rgba(245,239,232,.35); }
+  body.dark ::-webkit-scrollbar-thumb { background: rgba(245,239,232,.2); }
+  body.dark ::-webkit-scrollbar-track { background: transparent; }
+  body.dark #header-wifi-btn { background: rgba(245,239,232,.08); color: rgba(245,239,232,.6); }
+  body.dark #header-wifi-btn:hover { background: rgba(245,239,232,.15); color: #f5efe8; }
+  body.dark #theme-toggle-btn { background: rgba(245,239,232,.08); color: rgba(245,239,232,.6); }
+  body.dark #theme-toggle-btn:hover { background: rgba(245,239,232,.15); color: #FFC93C; }
+  body.dark #wifi-modal { background: #251c15; }
+  body.dark #product-sheet { background: #1a1210; }
+  body.dark #cart-panel { background: #1a1210; }
+  body.dark .star-input.idle { color: rgba(245,239,232,.2); }
+  body.dark .review-avatar { background: linear-gradient(135deg, #D62B1F, #7A1209); }
 </style>
 </head>
 <body class="bg-cream text-ink antialiased">
@@ -119,6 +146,10 @@
         <span id="header-status" class="flex items-center gap-1"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>مفتوح دلوقتي</span>
       </div>
     </div>
+    <button id="theme-toggle-btn" onclick="toggleTheme()" class="h-9 sm:h-10 px-2 sm:px-3 rounded-xl bg-ink/5 hover:bg-ink/10 transition-colors text-ink/70 hover:text-ink flex items-center gap-1.5 shrink-0">
+      <svg id="theme-icon-sun" class="h-5 w-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="theme-icon-moon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
     <button id="header-wifi-btn" class="hidden h-9 sm:h-10 px-2 sm:px-3 rounded-xl bg-ink/5 hover:bg-ink/10 transition-colors text-ink/70 hover:text-ink flex items-center gap-1.5 shrink-0" onclick="openWifiModal()">
       <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
     </button>
@@ -223,7 +254,7 @@
   <h3 class="font-display text-xl text-ink mb-1">واي فاي</h3>
   <p class="text-xs text-ink/50 mb-4">امسح الكود أو انسخ البيانات</p>
   <div class="bg-white rounded-2xl p-4 inline-block mb-4 border border-ink/8 shadow-sm">
-    <canvas id="wifi-qr-canvas"></canvas>
+    <img id="wifi-qr-img" src="" alt="WiFi QR" class="w-[200px] h-[200px]">
   </div>
   <div class="space-y-2 text-right">
     <div class="flex items-center justify-between bg-white rounded-xl px-4 py-2.5 border border-ink/8">
@@ -420,6 +451,23 @@ function applyOrderStatus() {
   if (typeof renderMain === 'function') renderMain();
 }
 
+// ============ THEME (dark/light) ============
+window.toggleTheme = function() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('atshan_theme', isDark ? 'dark' : 'light');
+  document.getElementById('theme-icon-sun').classList.toggle('hidden', !isDark);
+  document.getElementById('theme-icon-moon').classList.toggle('hidden', isDark);
+};
+// Restore saved theme
+(function() {
+  const saved = localStorage.getItem('atshan_theme');
+  if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.body.classList.add('dark');
+    document.getElementById('theme-icon-sun').classList.remove('hidden');
+    document.getElementById('theme-icon-moon').classList.add('hidden');
+  }
+})();
+
 // ============ WIFI ============
 function applyWifiButton() {
   const btn = document.getElementById('header-wifi-btn');
@@ -442,11 +490,12 @@ window.openWifiModal = function() {
   if (!ssid) return;
   document.getElementById('wifi-display-ssid').textContent = ssid;
   document.getElementById('wifi-display-pass').textContent = pass || '••••••••';
-  const canvas = document.getElementById('wifi-qr-canvas');
-  if (window.QRCode && canvas) {
+  const img = document.getElementById('wifi-qr-img');
+  if (window.QRCode && img) {
     const wifiStr = makeWifiString(ssid, pass || '');
-    canvas.innerHTML = '';
-    window.QRCode.toCanvas(canvas, wifiStr, { width: 200, margin: 2, color: { dark: '#2B1B12', light: '#FFFFFF' } });
+    window.QRCode.toDataURL(wifiStr, { width: 400, margin: 2, color: { dark: '#2B1B12', light: '#FFFFFF' } })
+      .then(url => { img.src = url; })
+      .catch(err => console.warn('QR err', err));
   }
   const backdrop = document.getElementById('wifi-modal-backdrop');
   const modal = document.getElementById('wifi-modal');
