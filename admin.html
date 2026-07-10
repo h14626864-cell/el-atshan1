@@ -147,11 +147,15 @@
       <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       سوشيال ميديا
     </button>
+    <button data-tab="settings" onclick="switchTab('settings')" class="tab-btn shrink-0 px-5 py-3 rounded-xl font-bold text-sm flex items-center gap-2">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      الاعدادات
+    </button>
   </nav>
 
   <!-- =================== STATS TAB (first) =================== -->
   <section id="tab-stats" class="tab-panel">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
       <div class="stat-card rounded-2xl p-5 border">
         <div class="flex items-center justify-between mb-2">
           <p class="text-xs font-bold text-ink/55">إجمالي الطلبات</p>
@@ -187,6 +191,40 @@
           </div>
         </div>
         <p id="stat-total-prods" class="font-display text-3xl text-ink">0</p>
+      </div>
+    </div>
+
+    <!-- Viewer Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="stat-card rounded-2xl p-5 border bg-gradient-to-br from-emerald-50 to-white">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-xs font-bold text-ink/55">متصلين الآن</p>
+          <div class="h-9 w-9 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-600">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+        </div>
+        <p id="stat-online-now" class="font-display text-3xl text-emerald-600">0</p>
+        <p class="text-[10px] text-ink/40 mt-1">بيانات الحركه الحقيقيه</p>
+      </div>
+      <div class="stat-card rounded-2xl p-5 border bg-gradient-to-br from-blue-50 to-white">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-xs font-bold text-ink/55">إجمالي الزيارات</p>
+          <div class="h-9 w-9 rounded-xl bg-blue-500/15 flex items-center justify-center text-blue-600">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+        </div>
+        <p id="stat-total-visits" class="font-display text-3xl text-blue-600">0</p>
+        <p class="text-[10px] text-ink/40 mt-1">كل مره حد فتح المنيو</p>
+      </div>
+      <div class="stat-card rounded-2xl p-5 border bg-gradient-to-br from-purple-50 to-white">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-xs font-bold text-ink/55">نشط حالياً</p>
+          <div class="h-9 w-9 rounded-xl bg-purple-500/15 flex items-center justify-center text-purple-600">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+        </div>
+        <p id="stat-active-now" class="font-display text-3xl text-purple-600">0</p>
+        <p class="text-[10px] text-ink/40 mt-1">تفاعلوا في آخر 5 دقائق</p>
       </div>
     </div>
 
@@ -503,6 +541,88 @@
     </div>
   </section>
 
+  <!-- =================== SETTINGS TAB =================== -->
+  <section id="tab-settings" class="tab-panel hidden">
+    <div class="space-y-6">
+      <!-- Restaurant Info -->
+      <div class="card p-5 sm:p-6">
+        <h2 class="font-display text-2xl text-flame mb-1">معلومات المطعم</h2>
+        <p class="text-xs text-ink/55 mb-5">غيّر اسم المطعم واللوجو اللي بيظهر في المنيو</p>
+        <form id="settings-restaurant-form" onsubmit="saveRestaurantSettings(event)" class="space-y-4">
+          <div>
+            <label class="block text-sm font-bold mb-1.5">اسم المطعم</label>
+            <input id="setting-restaurant-name" type="text" class="input-base" placeholder="مثال: العطشان" required>
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-1.5">لوجو المطعم</label>
+            <div class="grid grid-cols-2 gap-2 mb-2">
+              <button type="button" id="logo-mode-upload" onclick="setLogoImageMode('upload')" class="px-3 py-2 rounded-lg text-sm font-bold border-2 border-flame bg-flame/10 text-flame">رفع من الجهاز</button>
+              <button type="button" id="logo-mode-link" onclick="setLogoImageMode('link')" class="px-3 py-2 rounded-lg text-sm font-bold border-2 border-ink/15 bg-white text-ink/60">لينك الصوره</button>
+            </div>
+            <div id="logo-upload-wrap">
+              <label class="block cursor-pointer">
+                <input id="logo-file" type="file" accept="image/*" class="hidden" onchange="previewLogoFile(event)">
+                <div id="logo-file-zone" class="border-2 border-dashed border-ink/20 rounded-xl p-6 text-center hover:border-flame hover:bg-flame/5 transition-colors">
+                  <div class="text-3xl mb-1">📤</div>
+                  <p class="text-sm font-bold text-ink/70">اضغط لاختيار اللوجو</p>
+                  <p class="text-xs text-ink/40">PNG, JPG, WEBP</p>
+                </div>
+              </label>
+            </div>
+            <div id="logo-link-wrap" class="hidden">
+              <input id="logo-link" type="url" class="input-base" placeholder="https://example.com/logo.png" oninput="previewLogoLink()">
+            </div>
+            <div id="logo-preview-wrap" class="hidden mt-2">
+              <p class="text-xs text-ink/55 mb-1">معاينه اللوجو:</p>
+              <div class="flex items-center gap-3">
+                <img id="logo-preview" class="h-20 w-20 object-contain rounded-xl border border-ink/10 bg-cream p-2" alt="">
+                <button type="button" onclick="removeLogo()" class="text-xs font-bold text-flame hover:underline">حذف اللوجو</button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary w-full">حفظ معلومات المطعم</button>
+        </form>
+      </div>
+
+      <!-- Accept Orders Toggle -->
+      <div class="card p-5 sm:p-6">
+        <h2 class="font-display text-2xl text-flame mb-1">استقبال الطلبات</h2>
+        <p class="text-xs text-ink/55 mb-5">لما تقفل الطلبات، العملاء هيشوفوا المنيو بس بدون ما يقدروا يطلبوا</p>
+        <div class="space-y-4">
+          <label class="flex items-center gap-3 cursor-pointer p-4 rounded-xl bg-cream/50 border border-ink/8 transition-colors hover:bg-cream">
+            <input id="setting-accept-orders" type="checkbox" class="h-6 w-6 accent-flame" checked>
+            <div class="flex-1">
+              <span class="font-bold text-sm block">قبول الطلبات</span>
+              <span id="accept-orders-desc" class="text-xs text-ink/50">العملاء يقدروا يطلبوا دلوقتي</span>
+            </div>
+            <span id="accept-orders-status" class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-700">مفتوح</span>
+          </label>
+          <button onclick="saveAcceptOrders()" class="btn-primary w-full">حفظ حالة الطلبات</button>
+        </div>
+      </div>
+
+      <!-- Preview how it looks on customer side -->
+      <div class="card p-5 sm:p-6">
+        <h2 class="font-display text-2xl text-ink mb-1">معاينه</h2>
+        <p class="text-xs text-ink/55 mb-5">كده هيبان للعميل في المنيو</p>
+        <div class="rounded-2xl overflow-hidden border border-ink/10 bg-cream p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div id="preview-logo-container" class="h-12 w-12 rounded-2xl bg-gradient-to-br from-flame to-ember flex items-center justify-center text-cream text-2xl shadow-flameGlow overflow-hidden">
+              <span id="preview-logo-emoji">🔥</span>
+            </div>
+            <div>
+              <h3 id="preview-restaurant-name" class="font-display text-xl text-flame">العطشان</h3>
+              <p class="text-xs text-ink/55">المنيو الإلكتروني</p>
+            </div>
+          </div>
+          <div id="preview-order-status" class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+            <p class="text-sm font-bold text-emerald-700">يتم استقبال الطلبات حالياً</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <!-- ============ ORDER DETAILS MODAL ============ -->
@@ -644,6 +764,7 @@ function initApp() {
   subscribeOrders();
   subscribeReviews();
   subscribeSettings();
+  subscribeActiveViewers();
 }
 
 // ============ TABS ============
@@ -663,6 +784,7 @@ window.switchTab = function(tab) {
   if (tab === 'stats') renderStats();
   if (tab === 'reviews') renderReviews();
   if (tab === 'social') populateSocialForm();
+  if (tab === 'settings') populateSettingsForm();
 };
 
 // ============ SUBSCRIPTIONS ============
@@ -1557,8 +1679,188 @@ function subscribeSettings() {
   state.unsubSettings = onSnapshot(doc(window.__db, 'settings', 'main'), snap => {
     state.settings = snap.exists() ? snap.data() : {};
     populateSocialForm();
+    populateSettingsForm();
+    updateAcceptOrdersUI();
   }, err => console.error('settings err', err));
 }
+
+// ============ ACTIVE VIEWERS TRACKING ============
+function subscribeActiveViewers() {
+  const { collection, onSnapshot, query, orderBy } = window.__fs;
+  const q = query(collection(window.__db, 'activeViewers'), orderBy('lastSeen', 'desc'));
+  state.unsubViewers = onSnapshot(q, snap => {
+    const viewers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const now = Date.now();
+    const ONLINE_THRESHOLD = 60000; // 60 seconds
+    const ACTIVE_THRESHOLD = 300000; // 5 minutes
+    const onlineCount = viewers.filter(v => {
+      const lastSeen = v.lastSeen?.seconds ? v.lastSeen.seconds * 1000 : (v.lastSeen ? new Date(v.lastSeen).getTime() : 0);
+      return (now - lastSeen) < ONLINE_THRESHOLD;
+    }).length;
+    const activeCount = viewers.filter(v => {
+      const lastSeen = v.lastSeen?.seconds ? v.lastSeen.seconds * 1000 : (v.lastSeen ? new Date(v.lastSeen).getTime() : 0);
+      return (now - lastSeen) < ACTIVE_THRESHOLD;
+    }).length;
+    document.getElementById('stat-online-now').textContent = onlineCount;
+    document.getElementById('stat-active-now').textContent = activeCount;
+    const totalVisits = state.settings?.totalVisits || 0;
+    document.getElementById('stat-total-visits').textContent = totalVisits.toLocaleString('ar-EG');
+  }, err => console.error('viewers err', err));
+}
+
+// ============ SETTINGS TAB ============
+function populateSettingsForm() {
+  const s = state.settings || {};
+  const nameInput = document.getElementById('setting-restaurant-name');
+  if (nameInput) nameInput.value = s.restaurantName || '';
+  const acceptInput = document.getElementById('setting-accept-orders');
+  if (acceptInput) acceptInput.checked = s.acceptingOrders !== false; // default true
+  updateAcceptOrdersUI();
+  // Logo preview
+  if (s.logo) {
+    document.getElementById('logo-preview').src = s.logo;
+    document.getElementById('logo-preview-wrap').classList.remove('hidden');
+    document.getElementById('preview-logo-container').innerHTML = '<img src="' + s.logo + '" class="h-full w-full object-contain" alt="">';
+  } else {
+    document.getElementById('logo-preview-wrap').classList.add('hidden');
+    document.getElementById('preview-logo-container').innerHTML = '<span id="preview-logo-emoji">🔥</span>';
+  }
+  // Preview name
+  const previewName = document.getElementById('preview-restaurant-name');
+  if (previewName) previewName.textContent = s.restaurantName || 'العطشان';
+}
+
+function updateAcceptOrdersUI() {
+  const accepting = state.settings?.acceptingOrders !== false;
+  const desc = document.getElementById('accept-orders-desc');
+  const status = document.getElementById('accept-orders-status');
+  const preview = document.getElementById('preview-order-status');
+  const checkbox = document.getElementById('setting-accept-orders');
+  if (checkbox) checkbox.checked = accepting;
+  if (desc) desc.textContent = accepting ? 'العملاء يقدروا يطلبوا دلوقتي' : 'العملاء هيشوفوا المنيو بس';
+  if (status) {
+    if (accepting) {
+      status.textContent = 'مفتوح';
+      status.className = 'text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-700';
+    } else {
+      status.textContent = 'مقفول';
+      status.className = 'text-xs font-bold px-3 py-1 rounded-full bg-flame/15 text-flame';
+    }
+  }
+  if (preview) {
+    if (accepting) {
+      preview.className = 'p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center';
+      preview.innerHTML = '<p class="text-sm font-bold text-emerald-700">يتم استقبال الطلبات حالياً</p>';
+    } else {
+      preview.className = 'p-3 rounded-xl bg-flame/10 border border-flame/20 text-center';
+      preview.innerHTML = '<p class="text-sm font-bold text-flame">الطلبات مقفوله حالياً - عرض المنيو فقط</p>';
+    }
+  }
+}
+
+let logoImageMode = 'upload';
+let logoImageReady = null;
+
+window.setLogoImageMode = function(mode) {
+  logoImageMode = mode;
+  logoImageReady = null;
+  document.getElementById('logo-preview-wrap').classList.add('hidden');
+  const u = document.getElementById('logo-mode-upload');
+  const l = document.getElementById('logo-mode-link');
+  if (mode === 'upload') {
+    u.className = 'px-3 py-2 rounded-lg text-sm font-bold border-2 border-flame bg-flame/10 text-flame';
+    l.className = 'px-3 py-2 rounded-lg text-sm font-bold border-2 border-ink/15 bg-white text-ink/60';
+    document.getElementById('logo-upload-wrap').classList.remove('hidden');
+    document.getElementById('logo-link-wrap').classList.add('hidden');
+  } else {
+    l.className = 'px-3 py-2 rounded-lg text-sm font-bold border-2 border-flame bg-flame/10 text-flame';
+    u.className = 'px-3 py-2 rounded-lg text-sm font-bold border-2 border-ink/15 bg-white text-ink/60';
+    document.getElementById('logo-upload-wrap').classList.add('hidden');
+    document.getElementById('logo-link-wrap').classList.remove('hidden');
+  }
+};
+
+window.previewLogoFile = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('logo-preview').src = ev.target.result;
+    document.getElementById('logo-preview-wrap').classList.remove('hidden');
+    logoImageReady = { file };
+  };
+  reader.readAsDataURL(file);
+};
+
+window.previewLogoLink = function() {
+  const url = document.getElementById('logo-link').value.trim();
+  if (!url) {
+    document.getElementById('logo-preview-wrap').classList.add('hidden');
+    logoImageReady = null;
+    return;
+  }
+  document.getElementById('logo-preview').src = url;
+  document.getElementById('logo-preview-wrap').classList.remove('hidden');
+  logoImageReady = { url };
+};
+
+window.removeLogo = function() {
+  logoImageReady = { remove: true };
+  document.getElementById('logo-preview-wrap').classList.add('hidden');
+  document.getElementById('logo-file').value = '';
+  document.getElementById('logo-link').value = '';
+};
+
+window.saveRestaurantSettings = async function(e) {
+  e.preventDefault();
+  const restaurantName = document.getElementById('setting-restaurant-name').value.trim();
+  if (!restaurantName) return showToast('اكتب اسم المطعم', 'err');
+  let logo = '';
+  if (logoImageReady?.remove) {
+    logo = '';
+  } else if (logoImageReady?.file) {
+    showLoading(true);
+    try {
+      logo = await uploadToCloudinary(logoImageReady.file);
+    } catch (err) {
+      showLoading(false);
+      return showToast('خطأ في رفع اللوجو: ' + err.message, 'err');
+    }
+  } else if (logoImageReady?.url) {
+    logo = logoImageReady.url;
+  } else {
+    logo = state.settings?.logo || '';
+  }
+  showLoading(true);
+  try {
+    const { doc, setDoc, serverTimestamp } = window.__fs;
+    await setDoc(doc(window.__db, 'settings', 'main'), {
+      restaurantName, logo, updatedAt: serverTimestamp()
+    }, { merge: true });
+    showToast('تم حفظ معلومات المطعم');
+    logoImageReady = null;
+  } catch (err) {
+    showToast('خطأ: ' + err.message, 'err');
+  } finally {
+    showLoading(false);
+  }
+};
+
+window.saveAcceptOrders = async function() {
+  const acceptingOrders = document.getElementById('setting-accept-orders').checked;
+  showLoading(true);
+  try {
+    const { doc, setDoc, serverTimestamp } = window.__fs;
+    await setDoc(doc(window.__db, 'settings', 'main'), {
+      acceptingOrders, updatedAt: serverTimestamp()
+    }, { merge: true });
+    showToast(acceptingOrders ? 'تم فتح استقبال الطلبات' : 'تم قفل استقبال الطلبات');
+  } catch (err) {
+    showToast('خطأ: ' + err.message, 'err');
+  } finally {
+    showLoading(false);
+  }
+};
 
 function populateSocialForm() {
   const s = state.settings || {};
