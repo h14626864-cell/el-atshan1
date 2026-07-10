@@ -119,6 +119,9 @@
         <span id="header-status" class="flex items-center gap-1"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>مفتوح دلوقتي</span>
       </div>
     </div>
+    <button id="header-wifi-btn" class="hidden h-9 sm:h-10 px-2 sm:px-3 rounded-xl bg-ink/5 hover:bg-ink/10 transition-colors text-ink/70 hover:text-ink flex items-center gap-1.5 shrink-0" onclick="openWifiModal()">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+    </button>
     <button data-order-element onclick="openCart()" class="relative h-9 sm:h-10 px-3 sm:px-4 rounded-xl bg-flame hover:bg-ember transition-colors text-white font-bold flex items-center gap-1.5 shrink-0 shadow-flameGlow">
       <span>🛒</span>
       <span id="cart-badge" class="bg-gold text-ember text-[11px] font-black h-5 min-w-5 px-1 flex items-center justify-center rounded-full">0</span>
@@ -206,6 +209,40 @@
   تمت الإضافة للسلة 🔥
 </div>
 
+<!-- WIFI MODAL -->
+<div id="wifi-modal-backdrop" class="hidden fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeWifiModal()"></div>
+<div id="wifi-modal" class="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 max-w-sm mx-auto bg-cream rounded-3xl shadow-2xl p-6 text-center hidden opacity-0 scale-95 transition-all duration-300">
+  <button onclick="closeWifiModal()" class="absolute top-4 left-4 h-8 w-8 rounded-full bg-ink/5 hover:bg-ink/10 flex items-center justify-center transition-colors">
+    <svg class="h-5 w-5 text-ink/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="flex justify-center mb-3">
+    <div class="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+      <svg class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+    </div>
+  </div>
+  <h3 class="font-display text-xl text-ink mb-1">واي فاي</h3>
+  <p class="text-xs text-ink/50 mb-4">امسح الكود أو انسخ البيانات</p>
+  <div class="bg-white rounded-2xl p-4 inline-block mb-4 border border-ink/8 shadow-sm">
+    <canvas id="wifi-qr-canvas"></canvas>
+  </div>
+  <div class="space-y-2 text-right">
+    <div class="flex items-center justify-between bg-white rounded-xl px-4 py-2.5 border border-ink/8">
+      <button onclick="copyWifiField('wifi-display-ssid')" class="text-ink/40 hover:text-flame transition-colors">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+      <span id="wifi-display-ssid" class="font-bold text-sm text-ink" dir="ltr"></span>
+      <span class="text-xs text-ink/50">الشبكة</span>
+    </div>
+    <div class="flex items-center justify-between bg-white rounded-xl px-4 py-2.5 border border-ink/8">
+      <button onclick="copyWifiField('wifi-display-pass')" class="text-ink/40 hover:text-flame transition-colors">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+      <span id="wifi-display-pass" class="font-bold text-sm text-ink font-mono" dir="ltr">••••••••</span>
+      <span class="text-xs text-ink/50">الباسورد</span>
+    </div>
+  </div>
+</div>
+
 <!-- PRODUCT DETAIL SHEET (full-page feel) -->
 <div id="sheet-backdrop" class="hidden fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeSheet()"></div>
 <div id="product-sheet" class="fixed inset-0 sm:inset-x-0 sm:bottom-0 sm:top-auto z-50 bg-cream sm:rounded-t-3xl shadow-2xl max-h-[100vh] sm:max-h-[94vh] overflow-y-auto translate-y-full transition-transform duration-300 ease-out">
@@ -245,9 +282,10 @@
 </div>
 
 <!-- ============ FIREBASE ============ -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, collection, doc, addDoc, setDoc, increment, query, orderBy, where, onSnapshot, serverTimestamp, getDocs, limit } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, increment, query, orderBy, where, onSnapshot, serverTimestamp, getDocs, limit } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvh296Sfj27Ity1OIpDSvM_u_9u1qGk3U",
@@ -263,7 +301,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 window.__db = db;
-window.__fs = { collection, doc, addDoc, setDoc, increment, query, orderBy, where, onSnapshot, serverTimestamp, getDocs, limit };
+window.__fs = { collection, doc, addDoc, setDoc, updateDoc, increment, query, orderBy, where, onSnapshot, serverTimestamp, getDocs, limit };
 window.dispatchEvent(new Event('firebase-ready'));
 </script>
 
@@ -284,11 +322,12 @@ let currentAdditions = [];
 let SETTINGS = { facebook: '', tiktok: '', instagram: '', whatsappEnabled: false, whatsappNumber: '', restaurantName: '', logo: '', acceptingOrders: true };
 
 function applySettings(s) {
-  SETTINGS = Object.assign({ facebook: '', tiktok: '', instagram: '', whatsappEnabled: false, whatsappNumber: '', restaurantName: '', logo: '', acceptingOrders: true }, s || {});
+  SETTINGS = Object.assign({ facebook: '', tiktok: '', instagram: '', whatsappEnabled: false, whatsappNumber: '', restaurantName: '', logo: '', acceptingOrders: true, wifiSsid: '', wifiPassword: '' }, s || {});
   renderSocialBar();
   renderWhatsappButton();
   applyRestaurantBranding();
   applyOrderStatus();
+  applyWifiButton();
 }
 
 function renderSocialBar() {
@@ -381,6 +420,74 @@ function applyOrderStatus() {
   if (typeof renderMain === 'function') renderMain();
 }
 
+// ============ WIFI ============
+function applyWifiButton() {
+  const btn = document.getElementById('header-wifi-btn');
+  if (!btn) return;
+  if (SETTINGS.wifiSsid) {
+    btn.classList.remove('hidden');
+  } else {
+    btn.classList.add('hidden');
+  }
+}
+
+function makeWifiString(ssid, pass) {
+  const escaped = (s) => s.replace(/([\\;,:""])/g, '\\$1');
+  return 'WIFI:T:WPA;S:' + escaped(ssid) + ';P:' + escaped(pass) + ';;';
+}
+
+window.openWifiModal = function() {
+  const ssid = SETTINGS.wifiSsid;
+  const pass = SETTINGS.wifiPassword;
+  if (!ssid) return;
+  document.getElementById('wifi-display-ssid').textContent = ssid;
+  document.getElementById('wifi-display-pass').textContent = pass || '••••••••';
+  const canvas = document.getElementById('wifi-qr-canvas');
+  if (window.QRCode && canvas) {
+    const wifiStr = makeWifiString(ssid, pass || '');
+    canvas.innerHTML = '';
+    window.QRCode.toCanvas(canvas, wifiStr, { width: 200, margin: 2, color: { dark: '#2B1B12', light: '#FFFFFF' } });
+  }
+  const backdrop = document.getElementById('wifi-modal-backdrop');
+  const modal = document.getElementById('wifi-modal');
+  backdrop.classList.remove('hidden');
+  modal.classList.remove('hidden');
+  requestAnimationFrame(() => {
+    backdrop.classList.remove('opacity-0');
+    modal.classList.remove('opacity-0', 'scale-95');
+  });
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeWifiModal = function() {
+  const backdrop = document.getElementById('wifi-modal-backdrop');
+  const modal = document.getElementById('wifi-modal');
+  backdrop.classList.add('opacity-0');
+  modal.classList.add('opacity-0', 'scale-95');
+  setTimeout(() => {
+    backdrop.classList.add('hidden');
+    modal.classList.add('hidden');
+  }, 300);
+  document.body.style.overflow = '';
+};
+
+window.copyWifiField = function(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const text = el.textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('تم النسخ'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('تم النسخ');
+  }
+};
+
 // ============ LAZY LOADING STATE ============
 // Tracks which categories have been loaded (to avoid re-fetching)
 const loadedCategories = new Set();
@@ -426,15 +533,23 @@ window.addEventListener('firebase-ready', () => {
   // ============ VIEWER TRACKING ============
   const viewerId = sessionStorage.getItem('atshan_viewer_id') || ('v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
   sessionStorage.setItem('atshan_viewer_id', viewerId);
-  const { setDoc, serverTimestamp, increment, deleteDoc, doc: docFn } = window.__fs;
+  const { setDoc, serverTimestamp, increment, updateDoc, doc: docFn } = window.__fs;
   // Register viewer
+  let viewerCreated = false;
   async function registerViewer() {
     try {
-      await setDoc(docFn(window.__db, 'activeViewers', viewerId), {
-        lastSeen: serverTimestamp(),
-        userAgent: navigator.userAgent.substring(0, 200),
-        createdAt: serverTimestamp()
-      });
+      if (!viewerCreated) {
+        await setDoc(docFn(window.__db, 'activeViewers', viewerId), {
+          lastSeen: serverTimestamp(),
+          userAgent: navigator.userAgent.substring(0, 200),
+          createdAt: serverTimestamp()
+        });
+        viewerCreated = true;
+      } else {
+        await updateDoc(docFn(window.__db, 'activeViewers', viewerId), {
+          lastSeen: serverTimestamp()
+        });
+      }
     } catch(e) { console.warn('viewer register err', e); }
   }
   // Increment total visits (once per session)

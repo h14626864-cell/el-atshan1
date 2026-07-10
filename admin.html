@@ -601,6 +601,34 @@
         </div>
       </div>
 
+      <!-- WiFi Settings -->
+      <div class="card p-5 sm:p-6">
+        <h2 class="font-display text-2xl text-ink mb-1">واي فاي</h2>
+        <p class="text-xs text-ink/55 mb-5">العملاء هيقدروا يتصلوا بالنت بتاعك من المنيو مباشرة</p>
+        <div class="space-y-4">
+          <div>
+            <label class="text-sm font-bold text-ink/70 mb-1.5 block">اسم الشبكة (SSID)</label>
+            <input id="setting-wifi-ssid" type="text" class="input-base" placeholder="مثال: AlAtshan_Guest" dir="ltr">
+          </div>
+          <div>
+            <label class="text-sm font-bold text-ink/70 mb-1.5 block">باسورد الواي فاي</label>
+            <div class="relative">
+              <input id="setting-wifi-password" type="password" class="input-base pl-10" placeholder="باسورد الشبكة" dir="ltr">
+              <button type="button" onclick="toggleWifiPasswordVisibility()" class="absolute left-3 top-1/2 -translate-y-1/2 text-ink/40 hover:text-ink/70 transition-colors">
+                <svg id="wifi-eye-icon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="wifi-qr-preview-wrap" class="hidden">
+            <label class="text-xs font-bold text-ink/50 mb-2 block">معاينة QR Code</label>
+            <div class="bg-white rounded-xl p-4 border border-ink/10 inline-block">
+              <canvas id="wifi-qr-preview"></canvas>
+            </div>
+          </div>
+          <button onclick="saveWifiSettings()" class="btn-primary w-full">حفظ إعدادات الواي فاي</button>
+        </div>
+      </div>
+
       <!-- Preview how it looks on customer side -->
       <div class="card p-5 sm:p-6">
         <h2 class="font-display text-2xl text-ink mb-1">معاينه</h2>
@@ -655,6 +683,7 @@
 </div>
 
 <!-- ============ FIREBASE ============ -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, deleteDoc, getDocs, onSnapshot, query, orderBy, where, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
@@ -1728,6 +1757,12 @@ function populateSettingsForm() {
   // Preview name
   const previewName = document.getElementById('preview-restaurant-name');
   if (previewName) previewName.textContent = s.restaurantName || 'العطشان';
+  // WiFi
+  const wifiSsid = document.getElementById('setting-wifi-ssid');
+  const wifiPass = document.getElementById('setting-wifi-password');
+  if (wifiSsid) wifiSsid.value = s.wifiSsid || '';
+  if (wifiPass) wifiPass.value = s.wifiPassword || '';
+  renderWifiPreview();
 }
 
 function updateAcceptOrdersUI() {
@@ -1861,6 +1896,53 @@ window.saveAcceptOrders = async function() {
     showLoading(false);
   }
 };
+
+// ============ WIFI SETTINGS ============
+function makeWifiString(ssid, pass) {
+  const escaped = (s) => s.replace(/([\\;,:""])/g, '\\$1');
+  return 'WIFI:T:WPA;S:' + escaped(ssid) + ';P:' + escaped(pass) + ';;';
+}
+
+window.toggleWifiPasswordVisibility = function() {
+  const inp = document.getElementById('setting-wifi-password');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+};
+
+window.saveWifiSettings = async function() {
+  const ssid = document.getElementById('setting-wifi-ssid').value.trim();
+  const password = document.getElementById('setting-wifi-password').value;
+  if (!ssid) return showToast('اكتب اسم الشبكة', 'err');
+  showLoading(true);
+  try {
+    const { doc, setDoc, serverTimestamp } = window.__fs;
+    await setDoc(doc(window.__db, 'settings', 'main'), {
+      wifiSsid: ssid,
+      wifiPassword: password,
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    showToast('تم حفظ إعدادات الواي فاي');
+  } catch (err) {
+    showToast('خطأ: ' + err.message, 'err');
+  } finally {
+    showLoading(false);
+  }
+};
+
+// Live QR preview when typing
+document.getElementById('setting-wifi-ssid')?.addEventListener('input', renderWifiPreview);
+document.getElementById('setting-wifi-password')?.addEventListener('input', renderWifiPreview);
+
+function renderWifiPreview() {
+  const ssid = document.getElementById('setting-wifi-ssid').value.trim();
+  const pass = document.getElementById('setting-wifi-password').value;
+  const wrap = document.getElementById('wifi-qr-preview-wrap');
+  const canvas = document.getElementById('wifi-qr-preview');
+  if (!ssid || !window.QRCode) { wrap.classList.add('hidden'); return; }
+  wrap.classList.remove('hidden');
+  const wifiStr = makeWifiString(ssid, pass || '');
+  canvas.innerHTML = '';
+  window.QRCode.toCanvas(canvas, wifiStr, { width: 180, margin: 1, color: { dark: '#2B1B12', light: '#FFFFFF' } });
+}
 
 function populateSocialForm() {
   const s = state.settings || {};
